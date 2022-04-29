@@ -3,23 +3,23 @@
 #include <windows.h>
 #include <sstream>
 #include <algorithm>
+#include <string>
+#include <conio.h>
 using namespace std;
 fstream dataFile, newfile;	char name[81];
 ofstream outFile;
-stringstream strstream;
+ostringstream strstream;
 string str;
 bool tries = true;
 void execute(int user);
+void loadText();
+
 void clearScreen()
 {
     system("CLS");
     cout << flush;
     system("CLS");
 }
-//bool isvalidint(int user)
-//{
-//
-//}
 bool isValidChoice(int user)
 {
     if (user < 1 || user > 16)
@@ -31,9 +31,14 @@ bool isValidChoice(int user)
         return true;
     }
 }
-
+void ignoreLine()
+{
+    cin.clear();
+    cin.ignore(100, '\n');
+}
 int getUserChoice()
 {
+    int intuser;
     int user = 0;
     cout << "Plz select an option to apply or 16 to exit: \n";
     cout << "1. Add new text to the end of the file." << endl;
@@ -57,6 +62,13 @@ int getUserChoice()
     {
         cout << "Enter Your Choice: ";
         cin >> user;
+        while (cin.fail())
+        {
+            ignoreLine();
+            cout << "please enter a integer: ";
+            cin >> user;
+
+        }
         cin.clear();
         if (!isValidChoice(user))
         {
@@ -77,24 +89,12 @@ int main()
     {
         dataFile << name;
         dataFile.open(name, ios::out);
+        dataFile.close();
+        dataFile.open(name, ios::in);
         cout << "This is a new file. I created it for you !";
         Sleep(1000);
         clearScreen();
-        while (user != 16)
-        {
-            user = getUserChoice();
-            execute(user);
-            if (user != '0')
-            {
-                clearScreen();
-            }
-        }
-    }
-    else
-    {
-        cout << "This File Already Exists\n";
-        Sleep(1300);
-        clearScreen();
+        loadText();
         while (user != 16)
         {
             user = getUserChoice();
@@ -105,34 +105,66 @@ int main()
             }
         }
         dataFile.close();
-        cout << "Thank you for chooing our Text Editor program ";
+    }
+    else
+    {
+        dataFile.open(name, ios::in);
+        cout << "This File Already Exists\n";
+        Sleep(1300);
+        clearScreen();
+        loadText();
+        while (user != 16)
+        {
+            user = getUserChoice();
+            execute(user);
+            if (user != '0')
+            {
+                clearScreen();
+            }
+        }
+        dataFile.close();
+        cout << "\n!Thank you for chooing our Text Editor program! \n\n";
         return 0;
 
     }
 }
+
+void loadText()
+{
+    strstream << dataFile.rdbuf();
+    str = strstream.str();
+}
+
 void execute(int user)
 {
-    
+
     if (user == 2)
     {
         cout << "\n";
-        
-        while (tries)
-        {
-            strstream << dataFile.rdbuf();
-            str = strstream.str();
-            tries = false;
-        }
+        clearScreen();
+        cout << "The Text is:\n";
+        cout << "-----------------------------------------------------------------|\n";
+        // while (!dataFile.eof())
+        // {
+        //     cout << (char)dataFile.get();
+        // }    
+        // dataFile.clear();
+        // dataFile.seekg(0, dataFile.beg);
         cout << str;
-        Sleep(2000);
+        cout << "\n\npress enter to continue: ";
+        cin.ignore();
+        char temp = 'x';
+        while (temp != '\n')
+            temp = cin.get();
+
     }
     else if (user == 11)
     {
         int m = 0;
         int drop, coun(0);
-        string upp, true_repeat;
-        string repeat, line,without;
-        cout << "Enter the word to count: ";
+        string upp = "", true_repeat = "";
+        string repeat = "", line, without = "";
+        cout << "\nEnter the word to count: ";
         cin >> repeat;
         for (int i = 0;i < repeat.length();i++)
         {
@@ -141,27 +173,46 @@ void execute(int user)
         without = str;
         for (int i = 0;i < without.length();i++)
         {
-            if (without[i] == '\n')
+            if (without[i] == '\n' && without[i + 1] == '\n')
+            {
+                without[i] = ' ';
+                without.erase(i + 1, 1);
+                i++;
+            }
+            else if (without[i] == '\n' && without[i + 1] != '\n')
             {
                 without[i] = ' ';
             }
         }
+        without.erase(remove(without.begin(), without.end(), '\n'), without.end());
         for (int i = 0;i < without.length();i++)
         {
             upp += tolower(without[i]);
         }
-        for (int i = 0;i<upp.length();++i)
+        for (int i = 0;i < upp.length();++i)
         {
-            if (i == upp.length() - 1)
+            if (i == upp.length() - 1 && upp[i] != ' ')
             {
                 for (m; m <= i; m++)
                 {
                     line += upp[m];
                 }
+                if (line == true_repeat)
+                {
+                    coun++;
+                }
             }
-            if (upp[i] == ' ' &&upp[i+1]!=' ')
+            if (i == 0)
             {
-                for (m; m < i; m++)
+                continue;
+            }
+            else if (upp[i - 1] == ' ')
+            {
+                m = i;
+            }
+            if (isalpha(upp[i]) && upp[i + 1] == ' ')
+            {
+                for (m; m <= i; m++)
                 {
                     line += upp[m];
                 }
@@ -179,44 +230,76 @@ void execute(int user)
         }
         if (coun > 0)
         {
-            cout << "The word " << repeat << " found " << coun << " times.";
-            Sleep(2000);
+            cout << "\nThe word " << repeat << " found " << coun << " times.";
+
         }
         else
         {
             cout << "\nThe word " << repeat << " was not found in the file.";
-            Sleep(2000);
-        }
 
+        }
+        cout << "\n\npress enter to continue: ";
+        cin.ignore();
+        char temp = 'x';
+        while (temp != '\n')
+            temp = cin.get();
     }
     else if (user == 12)
     {
         string upp;
-
-
         for (int i = 0;i < str.length();i++)
         {
             upp += toupper(str[i]);
         }
-        outFile.open(name, ofstream::out | ios::trunc);
-        outFile << upp << endl;
-        cout << "\nDone!";
-        Sleep(2000);
         str = upp;
-        upp = "";
+        str.erase(remove(str.end() - 1, str.end(), '\n'), str.end());
+        cout << "\nDone!";
+        Sleep(1000);
     }
     else if (user == 13)
     {
-        string upp;
+        string upp;;
+
         for (int i = 0;i < str.length();i++)
         {
             upp += tolower(str[i]);
         }
-        outFile.open(name, ofstream::out | ios::trunc);
-        outFile << upp << endl;
-        cout << "\nDone!";
-        Sleep(3000);
         str = upp;
-        upp = "";
+        cout << "\nDone!";
+        Sleep(1000);
+
+    }
+    else if (user == 14)
+    {
+        int m = 0;
+        int drop, coun(0);
+        string upp = "", line = "", without = "";
+        without = str;
+        for (int i = 0;i < without.length();i++)
+        {
+            upp += tolower(without[i]);
+        }
+        for (int x = 0; x < upp.length(); x++)
+        {
+            if (x == 0)
+            {
+                upp[x] = toupper(upp[x]);
+            }
+            else if (upp[x - 1] == ' ')
+            {
+                upp[x] = toupper(upp[x]);
+            }
+            else if (upp[x - 1] == '\n' && isalpha(upp[x]))
+            {
+                upp[x] = toupper(upp[x]);
+            }
+        }
+        str = upp;
+    }
+    else if (user == 15)
+    {
+        outFile.open(name, ofstream::out | ios::trunc);
+        outFile << str << endl;
+        outFile.close();
     }
 }
