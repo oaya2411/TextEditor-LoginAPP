@@ -166,43 +166,13 @@ void execute(int user)
 {
     if (user == 1)
     {
-        string newtext;
-        cout << "Enter the new string to add: ";
-        cin.ignore();
-        getline(cin, newtext);
-        if (cf)
-        {
-            str += newtext;
-            save(name);
-            cf = false;
-        }
-        else 
-        {
-            str += '\n';
-            str += newtext;
-        }
-        save(name);
+        function1();
         
     }
     else if (user == 2)
     {
-        // while (!dataFile.eof())
-          // {
-          //     cout << (char)dataFile.get();
-          // }    
-           //dataFile.clear();
-          // dataFile.seekg(0, dataFile.beg);
-        cout << "\n";
-        clearScreen();
-        cout << "The Text is:\n";
-        cout << "-----------------------------------------------------------------|\n";
-        cout << str;
-        cout << "\n\npress enter to continue: ";
-        cin.ignore();
-        char temp = 'x';
-        while (temp != '\n')
-            temp = cin.get();
 
+      function2();
     }
     else if (user == 3)
     {
