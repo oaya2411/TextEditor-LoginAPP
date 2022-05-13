@@ -14,8 +14,38 @@ void save(const  char* filename)
     outFile.close();
 }
 
+void function1()
+{
+string newtext;
+        cout << "Enter the new string to add: ";
+        cin.ignore();
+        getline(cin, newtext);
+        if (cf)
+        {
+            str += newtext;
+            save(name);
+            cf = false;
+        }
+        else 
+        {
+            str += '\n';
+            str += newtext;
+        }
+        save(name);}
 
-
+void function2()
+{
+  cout << "\n";
+        clearScreen();
+        cout << "The Text is:\n";
+        cout << "-----------------------------------------------------------------|\n";
+        cout << str;
+        cout << "\n\npress enter to continue: ";
+        cin.ignore();
+        char temp = 'x';
+        while (temp != '\n')
+            temp = cin.get();
+}
 void function_11()
 {
     string word;
