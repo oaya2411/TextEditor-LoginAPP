@@ -46,6 +46,43 @@ void function2()
         while (temp != '\n')
             temp = cin.get();
 }
+void function4(){
+    string encrypt;
+        encrypt = str;
+        cout << "\n";
+        char n;
+        str = "";
+        for (int i = 0; i < encrypt.size(); i++) 
+        {
+            if ((char)encrypt.at(i) != 10 || (char)encrypt.at(i) != 13) 
+            {
+                n = char(encrypt.at(i) + 1);
+                dataFile << n;
+                str +=n;
+            }
+            else
+                dataFile << "/n";
+        }
+}
+void function5(){
+    string decrypt;
+        decrypt = str;
+        cout << "\n";
+        str = "";
+        char n;
+        for (int i = 0; i < decrypt.size(); i++) 
+        {
+            if ((char)decrypt.at(i) != 10 || (char)decrypt.at(i) != 13) {
+                n = char(decrypt.at(i) - 1);
+                dataFile << n;
+                str +=n;
+            }
+            else
+                dataFile << "/n";
+        }
+        dataFile.close();
+}
+    
 void function_11()
 {
     string word;
