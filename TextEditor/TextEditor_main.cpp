@@ -180,41 +180,11 @@ void execute(int user)
     }
     else if (user == 4) 
     {
-        string encrypt;
-        encrypt = str;
-        cout << "\n";
-        char n;
-        str = "";
-        for (int i = 0; i < encrypt.size(); i++) 
-        {
-            if ((char)encrypt.at(i) != 10 || (char)encrypt.at(i) != 13) 
-            {
-                n = char(encrypt.at(i) + 1);
-                dataFile << n;
-                str +=n;
-            }
-            else
-                dataFile << "/n";
-        }
+        function4();
     }
     else if (user == 5) 
     {
-        string decrypt;
-        decrypt = str;
-        cout << "\n";
-        str = "";
-        char n;
-        for (int i = 0; i < decrypt.size(); i++) 
-        {
-            if ((char)decrypt.at(i) != 10 || (char)decrypt.at(i) != 13) {
-                n = char(decrypt.at(i) - 1);
-                dataFile << n;
-                str +=n;
-            }
-            else
-                dataFile << "/n";
-        }
-        dataFile.close();
+        function5();
     }
 
 
