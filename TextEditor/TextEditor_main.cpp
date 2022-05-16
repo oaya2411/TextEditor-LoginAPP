@@ -14,18 +14,22 @@
 #include <algorithm>
 #include <string>
 #include <conio.h>
-#include "20210478.h"
+#include "textEditor.h"
+
 
 using namespace std;
+fstream dataFile, newfile;
+char name[81];
+ofstream outFile;
+ostringstream strstream;
+string str;
 
 void execute(int user);
 void loadText();
-void clearScreen();
 bool isValidChoice(int user);
 void ignoreLine();
 int getUserChoice();
 void save();
-
 
 
 
@@ -138,12 +142,8 @@ int getUserChoice()
 
 
 }
-void clearScreen()
-{
-    system("CLS");
-    cout << flush;
-    system("CLS");
-}
+
+
 void loadText()
 {
     strstream << dataFile.rdbuf();
@@ -152,31 +152,19 @@ void loadText()
 
 
 
-
-
-
-
-
-
-
-
-
-
 void execute(int user)
 {
     if (user == 1)
     {
-        function1();
-        
+        function1();        
     }
     else if (user == 2)
     {
-
-      function2();
+        function2();
     }
     else if (user == 3)
     {
-        str = "";
+        function3();
     }
     else if (user == 4) 
     {
@@ -186,117 +174,26 @@ void execute(int user)
     {
         function5();
     }
-
-
     else if (user == 6)
     {
-        fstream mergefile;
-        ostringstream mergestream;
-        string merged, anotherfile;
-        cout << "Enter the merged file: ";
-        cin >> anotherfile;
-        mergefile.open(anotherfile, ios::in);
-        mergestream << mergefile.rdbuf();
-        merged = mergestream.str();
-        str += '\n';
-        str += merged;
-
-
+        function6();
     }
     else if (user == 7)
     {
-        string word;
-        int count = 0;
-        dataFile.clear();
-        dataFile.seekg(0, dataFile.beg);
-        while (!dataFile.eof())
-        {
-            dataFile >> word;
-            count += 1;
-        }
-
-        cout << count - 1 << endl;
-        cout << "\n\npress enter to continue: ";
-        cin.ignore();
-        char temp = 'x';
-        while (temp != '\n')
-            temp = cin.get();
+        function7();
     }
     else if (user == 8)
     {
-
-        char word;
-        int count = 0;
-        dataFile.clear();
-        dataFile.seekg(0, dataFile.beg);
-        while (!dataFile.eof())
-        {
-            dataFile >> word;
-            count += 1;
-        }
-        cout << count - 1 << endl;
-        cout << "\n\npress Enter to continue: ";
-        cin.ignore();
-        char temp = 'x';
-        while (temp != '\n')
-            temp = cin.get();
+        function8();
     }
-
     else if (user == 9)
     {
-
-        string line;
-        int count = 0;
-        dataFile.clear();
-        dataFile.seekg(0, dataFile.beg);
-        while (getline(dataFile, line))
-        {
-            count += 1;
-        }
-        cout << count;
-        cout << "\n\npress Enter to continue: ";
-        cin.ignore();
-        char temp = 'x';
-        while (temp != '\n')
-            temp = cin.get();
+        function9();
     }
-
     else if (user == 10)
     {
-        string word;
-        int count=0;
-        string word_in_file;
-        cout<<"enter the word to search for: ";
-        cin>>word;
-        dataFile.clear();
-        dataFile.seekg(0, dataFile.beg);
-        for (int i = 0;i <  word.length();i++)
-        {
-            word[i] = tolower(word[i]);
-        }
-        while(!dataFile.eof())
-        {
-            dataFile>>word_in_file;
-            for (int i = 0;i <  word.length();i++)
-            {
-                word_in_file[i] = tolower(word_in_file[i]);
-            }
-            if(word==word_in_file)
-                count+=1;
-        }
-            if(count>=1)
-                cout<<"word was found :)"<<endl;
-            else
-                cout<<"word wasn't found :(\n";
-
-            cout << "\n\npress Enter to continue: ";
-            cin.ignore();
-            char temp = 'x';
-            while (temp != '\n')
-                temp = cin.get();
+        function10();
     }
-
-
     else if (user == 11)
     {
         function_11();
@@ -318,5 +215,4 @@ void execute(int user)
         save_file();
     }
 }
-
 
