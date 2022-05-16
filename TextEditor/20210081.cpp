@@ -14,12 +14,7 @@ extern ofstream outFile;
 extern ostringstream strstream;
 extern string str;
 bool cf = false;
-// void save(const  char* filename)
-// {
-//     outFile.open(filename, ofstream::out | ios::trunc);
-//     outFile << str << endl;
-//     outFile.close();
-// }
+
 void clearScreen()
 {
     system("CLS");
